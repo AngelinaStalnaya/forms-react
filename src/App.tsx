@@ -12,9 +12,11 @@ const App = () => {
     register,
     handleSubmit,
     formState: {
-      errors
+      errors,
+      isSubmitting,
     } } = useForm<FormFields>();
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    await new Promise((res) => setTimeout(res, 1000));
     console.log(data)
   }
 
@@ -45,7 +47,9 @@ const App = () => {
         placeholder='Password' />
       {errors.password && <div className='text-red-500'>{errors.password.message}</div>}
 
-      <button type="submit">Submit</button>
+      <button disabled={isSubmitting} type="submit">
+        {isSubmitting ? 'Loading...' : 'Submit'}
+      </button>
     </form>
   )
 }
